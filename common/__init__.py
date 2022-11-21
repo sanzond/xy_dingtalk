@@ -1,2 +1,2 @@
-from . import token_store
+from .store import token_store
 from . import ding_request

@@ -1,7 +1,23 @@
+import base64
+import hmac
+import time
+
 import aiohttp
 from urllib import parse
 
-from .token_store import TokenStore
+from .store.token_store import TokenStore
+from .store.user_token_store import UserTokenStore
+
+
+def get_sign(data, key):
+    """
+    signature for dingtalk request
+    :param data:
+    :param key:
+    """
+    sign = base64.b64encode(
+        hmac.new(key.encode('utf-8'), str(data).encode('utf-8'), digestmod='SHA256').digest())
+    return str(sign, 'utf-8')
 
 
 def check_response_error(response, error_code=0, error_msg_key='errmsg'):
@@ -47,7 +63,7 @@ class DingRequest(object):
         return self.token_store.get()
 
     @staticmethod
-    async def get_response(url, params=None, response_callback=None):
+    async def get_response(url, params=None, response_callback=None, **kwargs):
         """
         get response from server
         :param url: url join with url_prefix
@@ -57,11 +73,11 @@ class DingRequest(object):
         """
         conn = aiohttp.TCPConnector(ssl=False)
         async with aiohttp.ClientSession(connector=conn) as session:
-            async with session.get(url, params=params) as response:
+            async with session.get(url, params=params, **kwargs) as response:
                 return await response_callback(response) if response_callback else await response.json()
 
     @staticmethod
-    async def post_response(url, json, data=None, response_callback=None):
+    async def post_response(url, json, data=None, response_callback=None, **kwargs):
         """
         post response to server, if json is not None, use json, else use data
         :param url: url join with url_prefix
@@ -72,7 +88,7 @@ class DingRequest(object):
         """
         conn = aiohttp.TCPConnector(ssl=False)
         async with aiohttp.ClientSession(connector=conn) as session:
-            async with session.post(url, json=json, data=data) as response:
+            async with session.post(url, json=json, data=data, **kwargs) as response:
                 return await response_callback(response) if response_callback else await response.json()
 
     async def get_token(self):
@@ -89,6 +105,23 @@ class DingRequest(object):
             'token': response['access_token'],
             'expires_in': response['expires_in']
         }
+
+    async def get_user_info(self, app_key, app_secret, tmp_auth_code):
+        """
+        get user info with user access token
+        :param app_key: Dingtalk app app_key
+        :param app_secret: Dingtalk app app_secret
+        :param tmp_auth_code: tmp_auth_code
+        :return:
+        """
+        timestamp = int(time.time() * 1000)
+        response = await self.post_response(
+            join_url(self.url_prefix,
+                     f'sns/getuserinfo_bycode?accessKey={app_key}&timestamp={timestamp}&signature={parse.quote(get_sign(timestamp, app_secret))}'),
+            {'tmp_auth_code': tmp_auth_code}
+        )
+        print(response)
+        return response
 
     async def get_auth_scopes(self):
         """
