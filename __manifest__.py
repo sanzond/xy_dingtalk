@@ -26,6 +26,12 @@
     # any module necessary for this one to work correctly
     'depends': ['base', 'hr'],
 
+    'assets': {
+        'web.assets_backend': [
+            'dingtalk/static/src/js/ding_qrcode_widget.js',
+        ]
+    },
+
     # always loaded
     'data': [
         'security/ir.model.access.csv',
