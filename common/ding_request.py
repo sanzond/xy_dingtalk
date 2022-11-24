@@ -106,21 +106,39 @@ class DingRequest(object):
             'expires_in': response['expires_in']
         }
 
-    async def get_user_info(self, app_key, app_secret, tmp_auth_code):
+    async def get_user_access_token(self, app_key, app_secret, temp_auth_code):
         """
-        get user info with user access token
+        get user access token
         :param app_key: Dingtalk app app_key
-        :param app_secret: Dingtalk app app_secret
-        :param tmp_auth_code: tmp_auth_code
+        :param app_secret: Dingtalk
+        :param temp_auth_code: temporary authorization code
+        :return: {"expireIn":7200,"accessToken":"xx","refreshToken":"xx"}
+        """
+        response = await self.post_response('https://api.dingtalk.com/v1.0/oauth2/userAccessToken', {
+            "clientSecret": app_secret,
+            "clientId": app_key,
+            "code": temp_auth_code,
+            "grantType": "authorization_code"
+        })
+        if response.get('code') is not None:
+            raise Exception(response['message'])
+        return response
+
+    async def get_user_info_by_access_token(self, user_access_token, union_id='me'):
+        """
+        get user info with user access_token
+        :param user_access_token: user_access_token, not app access_token
+        :param union_id: info whose union_id is this, self is 'me'
         :return:
         """
-        timestamp = int(time.time() * 1000)
-        response = await self.post_response(
-            join_url(self.url_prefix,
-                     f'sns/getuserinfo_bycode?accessKey={app_key}&timestamp={timestamp}&signature={parse.quote(get_sign(timestamp, app_secret))}'),
-            {'tmp_auth_code': tmp_auth_code}
+        response = await self.get_response(
+            f'https://api.dingtalk.com/v1.0/contact/users/{union_id}',
+            headers={
+                'x-acs-dingtalk-access-token': user_access_token
+            }
         )
-        print(response)
+        if response.get('code') is not None:
+            raise Exception(response['message'])
         return response
 
     async def get_auth_scopes(self):

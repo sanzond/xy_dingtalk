@@ -45,7 +45,6 @@ class Employee(models.Model):
                     'active': val['active']
                 })
             val['user_id'] = user.id
-
         return self.create(val_list)
 
     async def sync_user(self, ding_department, server_dep_id):
