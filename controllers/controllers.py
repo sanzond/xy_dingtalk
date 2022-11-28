@@ -100,12 +100,12 @@ class DingTalkController(http.Controller):
 
     @route('/ding/mail_list/callback/<string:agent_id>', type='http', auth='public', csrf=False)
     def ding_callback(self, agent_id, signature, timestamp, nonce):
-        data = request.httprequest.data.decode('utf-8')
+        data = json.loads(request.httprequest.data.decode('utf-8'))
         app = request.env['dingtalk.app'].sudo().search([('agentid', '=', agent_id)])
 
         ding_callback_crypto = DingCallbackCrypto3(app.token, app.encoding_aes_key, app.app_key)
         content = json.loads(ding_callback_crypto.getDecryptMsg(
-            signature, timestamp, nonce, json.loads(data)['encrypt']
+            signature, timestamp, nonce, data['encrypt']
         ))
         print(content)
         if content['EventType'] == 'check_url':
