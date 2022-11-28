@@ -20,13 +20,14 @@ class App(models.Model):
 
     name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description')
+    agentid = fields.Char(string='Agent ID', required=True)
     app_key = fields.Char(string='AppKey', required=True)
     app_secret = fields.Char(string='AppSecret', required=True)
 
     sync_with_user = fields.Boolean(string='Sync with res.user', default=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
 
-    def run_sync(self):
+    def run_ding_sync(self):
         self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
             'title': 'Sync Start......',
             'message': _('Start sync organization now, please wait......'),
@@ -37,12 +38,12 @@ class App(models.Model):
         def _sync():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            asyncio.run(self.sync_organization())
+            asyncio.run(self.sync_ding_organization())
 
         thread = threading.Thread(target=_sync)
         thread.start()
 
-    async def sync_organization(self):
+    async def sync_ding_organization(self):
         start = time.time()
         uid = self.env.uid
         is_success = True
@@ -59,7 +60,7 @@ class App(models.Model):
                 await self.env['hr.department'].with_context(
                     self.env.context, ding_app=self, ding_request=ding_request,
                     auth_scopes=auth_scopes
-                ).sync_department()
+                ).sync_ding_department()
                 detail_log += f'\nsync success!'
             except Exception:
                 is_success = False

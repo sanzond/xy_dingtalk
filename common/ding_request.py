@@ -1,12 +1,10 @@
 import base64
 import hmac
-import time
-
-import aiohttp
 from urllib import parse
 
+import aiohttp
+
 from .store.token_store import TokenStore
-from .store.user_token_store import UserTokenStore
 
 
 def get_sign(data, key):
@@ -204,6 +202,37 @@ class DingRequest(object):
             })
         check_response_error(response)
         return response['result']
+
+    async def upload_media(self, media_type, media_file, filename):
+        """
+        upload media
+        :param media_type: image, voice, video or file
+        :param media_file: media file
+        :param filename: media filename
+        :return: media_id
+        """
+        data = aiohttp.FormData()
+        data.add_field('type', media_type)
+        data.add_field('media', media_file, filename=filename, content_type='application/octet-stream')
+        response = await self.post_response(
+            join_url(self.url_prefix, f'media/upload?access_token={await self.latest_token()}&type={media_type}'),
+            None, data)
+        check_response_error(response)
+        return response['media_id']
+
+    async def send_message(self, message):
+        """
+        send message
+        :param message: message dict
+        :return:
+        """
+        response = await self.post_response(
+            join_url(self.url_prefix, f'topapi/message/corpconversation/asyncsend_v2?access_token={await self.latest_token()}'), message)
+        check_response_error(response)
+        return {
+            'request_id': response['request_id'],
+            'task_id': response['task_id']
+        }
 
 
 def ding_request_instance(app_key, app_secret):

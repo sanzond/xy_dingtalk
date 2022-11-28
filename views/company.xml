@@ -13,9 +13,9 @@
                         <tree create="1" delete="1">
                             <field name="name"/>
                             <field name="description"/>
-                            <field name="app_key"/>
+                            <field name="agentid"/>
                             <field name="sync_with_user"/>
-                            <button name="run_sync" string="Sync Organization" type="object"
+                            <button name="run_ding_sync" string="Sync Organization" type="object"
                                     icon="fa-refresh text-primary"/>
                         </tree>
                     </field>

@@ -36,6 +36,11 @@ class DingTalkController(http.Controller):
             join_url(host, redirect_uri)
         }
 
+    async def test_api(self, ding_request):
+        with open('/Users/admin/workspace/python_project/odoo-16/test_addons/dingtalk/static/all_users.png', 'rb') as f:
+            content = f.read()
+            print(ding_request.upload_media('image', content, 'all_users.png'))
+
     @route('/ding/oauth2/login/<int:app_id>', type='http', auth='public')
     def login_by_oauth2(self, authCode, app_id):
         """
@@ -48,7 +53,8 @@ class DingTalkController(http.Controller):
         ding_request = ding_request_instance(app.app_key, app.app_secret)
 
         async def _get_user_info():
-            access_token = (await ding_request.get_user_access_token(app.app_key, app.app_secret, authCode))['accessToken']
+            access_token = (await ding_request.get_user_access_token(app.app_key, app.app_secret, authCode))[
+                'accessToken']
             return await ding_request.get_user_info_by_access_token(access_token)
 
         loop = asyncio.new_event_loop()
@@ -89,3 +95,15 @@ class DingTalkController(http.Controller):
                 scope=scope
             )
         return request.redirect(_redirect_uri, 303, False)
+
+    @route('/ding/test', type='http', auth='public')
+    def test_api(self):
+        print(request.env['hr.employee'].send_ding_message(1, [
+            '124143586123834203', '092416520435324730'
+        ], msg={
+            "msgtype": "text",
+            "text": {
+                "content": "月会通知"
+            }
+        }))
+

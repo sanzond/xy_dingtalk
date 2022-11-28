@@ -8,12 +8,13 @@
                 <group col="4">
                     <group colspan="2">
                         <field name="name"/>
-                        <field name="app_key"/>
+                        <field name="agentid"/>
+                        <field name="app_secret" password="True"/>
                     </group>
 
                     <group colspan="2">
                         <field name="sync_with_user"/>
-                        <field name="app_secret" password="True"/>
+                        <field name="app_key"/>
                     </group>
 
                     <group colspan="4">

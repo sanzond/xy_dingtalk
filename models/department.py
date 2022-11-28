@@ -14,7 +14,7 @@ class Department(models.Model):
     ding_employee_ids = fields.Many2many('hr.employee', 'ding_employee_department_rel', 'department_id', 'employee_id',
                                          string='Dingtalk Employees')
 
-    async def get_server_depart_tree(self, dep_ids, for_in_callback=None):
+    async def get_ding_server_depart_tree(self, dep_ids, for_in_callback=None):
         """
         get Dingtalk server department id tree
         :param dep_ids: server department id list
@@ -30,7 +30,7 @@ class Department(models.Model):
             sublist = await ding_request.department_listsubid(parent_dep_id)
             _tree.append({
                 'id': parent_dep_id,
-                'children': await self.get_server_depart_tree(sublist, for_in_callback)
+                'children': await self.get_ding_server_depart_tree(sublist, for_in_callback)
             })
 
         for dep_id in dep_ids:
@@ -42,7 +42,7 @@ class Department(models.Model):
 
         return tree
 
-    async def sync_department(self):
+    async def sync_ding_department(self):
         """
         sync department from Dingtalk server
         :return:
@@ -52,7 +52,7 @@ class Department(models.Model):
         auth_scopes = self.env.context.get('auth_scopes')
 
         dep_ding_id_list = []
-        depart_tree = await self.get_server_depart_tree(
+        depart_tree = await self.get_ding_server_depart_tree(
             auth_scopes['auth_org_scopes']['authed_dept'],
             lambda dep_id: dep_ding_id_list.append(dep_id)
         )
@@ -84,7 +84,7 @@ class Department(models.Model):
             else:
                 dep.write(modify_data)
 
-            await self.env['hr.employee'].sync_user(dep, dep_detail['dept_id'])
+            await self.env['hr.employee'].sync_ding_user(dep, dep_detail['dept_id'])
 
             if len(_dep_leaf['children']) > 0:
                 for child in _dep_leaf['children']:
