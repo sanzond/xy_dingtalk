@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import asyncio
 from urllib import parse
 
@@ -6,6 +7,7 @@ from odoo import http
 from odoo.http import request, route
 
 from ..common.ding_request import join_url, ding_request_instance
+from ..common.DingCallbackCrypto import DingCallbackCrypto3
 
 
 class DingTalkController(http.Controller):
@@ -96,14 +98,19 @@ class DingTalkController(http.Controller):
             )
         return request.redirect(_redirect_uri, 303, False)
 
-    @route('/ding/test', type='http', auth='public')
-    def test_api(self):
-        print(request.env['hr.employee'].send_ding_message(1, [
-            '124143586123834203', '092416520435324730'
-        ], msg={
-            "msgtype": "text",
-            "text": {
-                "content": "月会通知"
-            }
-        }))
+    @route('/ding/mail_list/callback/<string:agent_id>', type='http', auth='public', csrf=False)
+    def ding_callback(self, agent_id, signature, timestamp, nonce):
+        data = request.httprequest.data.decode('utf-8')
+        app = request.env['dingtalk.app'].sudo().search([('agentid', '=', agent_id)])
+
+        ding_callback_crypto = DingCallbackCrypto3(app.token, app.encoding_aes_key, app.app_key)
+        content = json.loads(ding_callback_crypto.getDecryptMsg(
+            signature, timestamp, nonce, json.loads(data)['encrypt']
+        ))
+        print(content)
+        if content['EventType'] == 'check_url':
+            return json.dumps(ding_callback_crypto.getEncryptedMap('success'))
+        else:
+            pass
+
 

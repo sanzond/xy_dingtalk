@@ -26,6 +26,9 @@ class App(models.Model):
 
     sync_with_user = fields.Boolean(string='Sync with res.user', default=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
+    # callback settings
+    token = fields.Char(string='Token')
+    encoding_aes_key = fields.Char(string='EncodingAESKey')
 
     def run_ding_sync(self):
         self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
