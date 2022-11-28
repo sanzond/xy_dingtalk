@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='general_info']" position="after">
                 <page string="Dingtalk Apps" name="dingtalk_apps">
-                    <field name="app_ids">
+                    <field name="ding_app_ids">
                         <tree create="1" delete="1">
                             <field name="name"/>
                             <field name="description"/>
