@@ -167,3 +167,15 @@ class Employee(models.Model):
         loop.run_until_complete(send_message_task)
         loop.close()
         return send_message_task.result()
+
+    def on_ding_user_add_org(self, content, app):
+        pass
+
+    def on_ding_user_modify_org(self, content, app):
+        pass
+
+    def on_ding_user_leave_org(self, content, app):
+        pass
+
+    def on_ding_user_active_org(self, content, app):
+        pass

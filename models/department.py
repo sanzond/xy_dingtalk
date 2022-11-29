@@ -95,3 +95,12 @@ class Department(models.Model):
             tasks.append(_sync_dep(dep_leaf, False))
 
         await asyncio.gather(*tasks)
+
+    def on_ding_org_dept_create(self, content, app):
+        pass
+
+    def on_ding_org_dept_modify(self, content, app):
+        pass
+
+    def on_ding_org_dept_remove(self, content, app):
+        pass

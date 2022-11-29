@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import asyncio
+import re
 from urllib import parse
 
 from odoo import http
@@ -107,10 +108,19 @@ class DingTalkController(http.Controller):
         content = json.loads(ding_callback_crypto.getDecryptMsg(
             signature, timestamp, nonce, data['encrypt']
         ))
-        print(content)
-        if content['EventType'] == 'check_url':
-            return json.dumps(ding_callback_crypto.getEncryptedMap('success'))
-        else:
-            pass
+
+        event_type = content['EventType']
+        if event_type != 'check_url':
+            model = None
+            if re.match(r'^user_.*?_org$', event_type) is not None:
+                model = request.env['hr.employee']
+            elif re.match(r'^org_dept_.*?$', event_type) is not None:
+                model = request.env['hr.department']
+
+            if model:
+                func = getattr(model, f'on_ding_{event_type}', None)
+                if func:
+                    func(content, app)
+        return json.dumps(ding_callback_crypto.getEncryptedMap('success'))
 
 
