@@ -1,0 +1,200 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dingtalk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-30 06:45+0000\n"
+"PO-Revision-Date: 2022-11-30 06:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_dingtalk
+#: model:ir.module.module,summary:base.module_dingtalk
+msgid "Dingtalk"
+msgstr "钉钉"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__agentid
+msgid "Agent ID"
+msgstr ""
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__app_key
+msgid "AppKey"
+msgstr ""
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__app_secret
+msgid "AppSecret"
+msgstr ""
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_res_company__ding_app_ids
+msgid "Dingtalk Apps"
+msgstr "钉钉应用"
+
+#. module: dingtalk
+#: model_terms:ir.ui.view,arch_db:dingtalk.dingtalk_app_form
+msgid "Callback Settings"
+msgstr "回调设置"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_res_company
+msgid "Companies"
+msgstr "公司"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__company_id
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__company_id
+msgid "Company"
+msgstr "公司"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__create_uid
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__create_uid
+msgid "Created by"
+msgstr "创建人"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__create_date
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__create_date
+msgid "Created on"
+msgstr "创建时间"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_hr_department
+msgid "Department"
+msgstr "部门"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__description
+msgid "Description"
+msgstr "描述"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__detail
+msgid "Detail"
+msgstr "详情"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_dingtalk_app
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__ding_app_id
+msgid "Dingtalk App"
+msgstr "钉钉应用"
+
+#. module: dingtalk
+#: model_terms:ir.ui.view,arch_db:dingtalk.dingtalk_company_extend
+msgid "Dingtalk Apps"
+msgstr "钉钉应用"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_department__ding_id
+msgid "Dingtalk Department ID"
+msgstr "钉钉部门ID"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_department__ding_order
+msgid "Dingtalk Department Order"
+msgstr "钉钉部门顺序"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_employee__ding_department_ids
+msgid "Dingtalk Departments"
+msgstr "钉钉部门"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_department__ding_employee_ids
+msgid "Dingtalk Employees"
+msgstr "钉钉员工"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_dingtalk_log
+msgid "Dingtalk Log"
+msgstr "钉钉模块日志"
+
+#. module: dingtalk
+#: model:ir.actions.act_window,name:dingtalk.dingtalk_log_act_window
+#: model:ir.ui.menu,name:dingtalk.menu_dingtalk_log
+msgid "Dingtalk Logs"
+msgstr "钉钉模块日志"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_department__ding_parent_id
+msgid "Dingtalk Parent Department ID"
+msgstr "钉钉父部门ID"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_employee__ding_extattr
+msgid "Dingtalk User Extattr"
+msgstr "钉钉用户扩展信息"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_employee__ding_userid
+msgid "Dingtalk User ID"
+msgstr "钉钉用户userid"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_hr_employee__ding_id
+msgid "Dingtalk User unionid ID"
+msgstr "钉钉用户unionid"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_hr_employee
+msgid "Employee"
+msgstr "员工"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__encoding_aes_key
+msgid "EncodingAESKey"
+msgstr "加密aes_key"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__id
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_log__id
+msgid "ID"
+msgstr ""
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__name
+msgid "Name"
+msgstr "应用名称"
+
+#. module: dingtalk
+#: code:addons/dingtalk/models/employee.py:0
+#, python-format
+msgid "Please select the user or department to send the message!"
+msgstr "请选择指定用户或部门发送信息"
+
+#. module: dingtalk
+#: code:addons/dingtalk/models/app.py:0
+#, python-format
+msgid "Start sync organization now, please wait......"
+msgstr "开始同步组织架构，请稍后..."
+
+#. module: dingtalk
+#: model_terms:ir.ui.view,arch_db:dingtalk.dingtalk_company_extend
+msgid "Sync Organization"
+msgstr "同步组织架构"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__sync_with_user
+msgid "Sync with res.user"
+msgstr "同步员工到res.user"
+
+#. module: dingtalk
+#: model:ir.model.fields,field_description:dingtalk.field_dingtalk_app__token
+msgid "Token"
+msgstr "签名token"
+
+#. module: dingtalk
+#: model:ir.model,name:dingtalk.model_res_users
+msgid "User"
+msgstr "用户"
