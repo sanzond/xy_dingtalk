@@ -139,6 +139,23 @@ class DingRequest(object):
             raise Exception(response['message'])
         return response
 
+    async def get_user_info_by_userid(self, userid, language='zh_CN'):
+        """
+        get user info with userid
+        :param userid: userid in dingtalk
+        :param language zh_CN or en_US
+        :return:
+        """
+        response = await self.post_response(
+            join_url(self.url_prefix, f'topapi/v2/user/get?access_token={await self.latest_token()}'),
+            {
+                'userid': userid,
+                'language': language
+            }
+        )
+        check_response_error(response)
+        return response['result']
+
     async def get_auth_scopes(self):
         """
         get auth scopes
@@ -168,7 +185,7 @@ class DingRequest(object):
     async def department_detail(self, dept_id, language='zh_CN'):
         """
         get department detail
-        :param dept_id: department id
+        :param dept_id: department id in dingtalk
         :param language: language
         :return:
         """

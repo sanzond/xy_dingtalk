@@ -117,7 +117,7 @@ class DingTalkController(http.Controller):
             elif re.match(r'^org_dept_.*?$', event_type) is not None:
                 model = request.env['hr.department']
 
-            if model:
+            if model is not None:
                 func = getattr(model, f'on_ding_{event_type}', None)
                 if func:
                     func(content, app)
